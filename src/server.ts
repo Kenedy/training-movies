@@ -1,6 +1,6 @@
 import express from 'express';
 import shortid from 'shortid';
-import Repository from './repository';
+import Repository from './Repository';
 
 const app = express();
 const repo = new Repository('data.json');

@@ -22,10 +22,11 @@ V aplikaci je možné evidovat následující data (`[]` značí, že se jedná 
     yearOfRelease?: number
     mainDirector?: string
     starring?[]:
-        actorName: string;
-    genre?: string
+        actorName: string
+    genres?[]:
+        genre: string
     description?: string
-    rating?
+    rating?:
         dateOfWatching?: date
         seenItWhole: boolean
         score: number
@@ -38,11 +39,11 @@ Atribut type musí mít hodnotu "movie" nebo "series". Klient by měl zároveň 
 
 Seriál má stejná data jako film. Navíc ještě kolekci sezón a v ní kolekci dílů. Každý díl může mít vlastní rating.
 
-    season[]
+    season[]:
         number: number
-        episodes[]
+        episodes[]:
             episodeName?: string
-            rating?
+            rating?:
                 dateOfWatching?: date
                 seenItWhole: boolean
                 score: number
