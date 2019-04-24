@@ -5,7 +5,7 @@
 ## Instalace
 
 1. Naklonovat si repository
-1. `npm install` v adresáři, kde je umístěn package.json nainstaluje použité npm moduly.
+1. `npm install --production` v adresáři, kde je umístěn package.json nainstaluje použité npm moduly.
 1. `npm start` spustí webserver, který bude dostupný na adrese http://localhost:8080/
 
 ## Zadání práce
