@@ -1,0 +1,19 @@
+{
+  "name": "training-movies",
+  "version": "1.0.0",
+  "description": "Backend project for client development training. Not useful for real purposes.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kenedy/training-movies.git"
+  },
+  "author": "Kenedy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kenedy/training-movies/issues"
+  },
+  "homepage": "https://github.com/Kenedy/training-movies#readme"
+}
