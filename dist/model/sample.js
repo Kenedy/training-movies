@@ -1,4 +1,6 @@
-export default [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = [
     {
         id: 'EZwHYLmVu',
         name: 'The Guard',
@@ -99,4 +101,4 @@ export default [
             }
         ]
     }
-]
+];
