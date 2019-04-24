@@ -1,7 +1,9 @@
 import express from 'express';
 import shortid from 'shortid';
+import Repository from './repository';
 
 const app = express();
+const repo = new Repository('data.json');
 
 // CORS
 app.use(function(_req, res, next) {
@@ -12,5 +14,15 @@ app.use(function(_req, res, next) {
 });
 
 app.get('/', (_req, res) => res.send(`hic sunt leones ${shortid.generate()}`) );
+
+app.get('/list', (_req, res) => {
+    try {
+        const records = repo.getRecords();
+        res.send(records);
+    } catch (err) {
+        res.status(500);
+        res.send({error: err && (err as Error).message});
+    }
+});
 
 app.listen(8080, () => console.log('training-movies backend listening on port 8080'));

@@ -1,6 +1,11 @@
 import Record from './model/Record';
 
 export default class Repository {
+
+    constructor(_filePath: string) {
+        // TODO: Implement
+    }
+
     public getRecords(): Record[] {
         throw new Error('not implemented yet');
     }

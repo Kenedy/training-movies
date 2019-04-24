@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const shortid_1 = __importDefault(require("shortid"));
+const repository_1 = __importDefault(require("./repository"));
 const app = express_1.default();
+const repo = new repository_1.default('data.json');
 // CORS
 app.use(function (_req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -14,4 +16,14 @@ app.use(function (_req, res, next) {
     next();
 });
 app.get('/', (_req, res) => res.send(`hic sunt leones ${shortid_1.default.generate()}`));
+app.get('/list', (_req, res) => {
+    try {
+        const records = repo.getRecords();
+        res.send(records);
+    }
+    catch (err) {
+        res.status(500);
+        res.send({ error: err.message });
+    }
+});
 app.listen(8080, () => console.log('training-movies backend listening on port 8080'));
