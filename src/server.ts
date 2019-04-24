@@ -1,4 +1,6 @@
-import express = require('express');
+import express from 'express';
+import shortid from 'shortid';
+
 const app = express();
 
 // CORS
@@ -7,8 +9,8 @@ app.use(function(_req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, X-CSRFToken');
     res.header('Access-Control-Expose-Headers', 'X-CSRFToken');
     next();
-  });
+});
 
-app.get('/', (_req, res) => res.send('hic sunt leones') );
+app.get('/', (_req, res) => res.send(`hic sunt leones ${shortid.generate()}`) );
 
 app.listen(8080, () => console.log('training-movies backend listening on port 8080'));
