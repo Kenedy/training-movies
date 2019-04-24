@@ -33,7 +33,7 @@ V aplikaci je možné evidovat následující data (`[]` značí, že se jedná 
 
 Atribut `id` uživatel nevyplňuje, přiděluje ho server.
 
-Atribut type musí mít hodnotu "movie" nebo "series". Klient by měl zároveň kontrolovat, že `yearOfRelease` spadá do rozumného časového rozsahu (server to nicméně nekontroluje, co je rozumný rozsah je tedy na Vás). Pro genre si může klient připravit výčet hodnot, nebo je nechat uživateli zadat. `Description` by měl mít uživatel možnost zadat víceřádkovým textem. Jakých hodnot nabývá `score` (zda menší je lepší či obráceně a v jakém rozsahu) je na Vašem rozhodnutí.
+Atribut type musí mít hodnotu "movie" nebo "series". Klient by měl zároveň kontrolovat, že `yearOfRelease` spadá do rozumného časového rozsahu (server to nicméně nekontroluje, co je rozumný rozsah je tedy na Vás). Pro genre si může klient připravit výčet hodnot, nebo je nechat uživateli zadat. `Description` by měl mít uživatel možnost zadat víceřádkovým textem. `Rating` je hodnocení uživatelem (může vyplnit, kdy to viděl, zda shlédnul celé, a nějaké `score`). Jakých hodnot nabývá `score` (zda menší je lepší či obráceně a v jakém rozsahu) je na Vašem rozhodnutí.
 
 ### Series
 
