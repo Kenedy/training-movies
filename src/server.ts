@@ -1,6 +1,6 @@
 import express from 'express';
-import shortid from 'shortid';
 import Repository from './Repository';
+import _ from 'lodash';
 
 const app = express();
 const repo = new Repository('data.json');
@@ -13,16 +13,32 @@ app.use(function(_req, res, next) {
     next();
 });
 
-app.get('/', (_req, res) => res.send(`hic sunt leones ${shortid.generate()}`) );
+app.get('/', (_req, res) => res.send(`For API description see https://github.com/Kenedy/training-movies`) );
 
 app.get('/list', (_req, res) => {
     try {
         const records = repo.getRecords();
-        console.log(records);
         res.send(records);
     } catch (err) {
-        res.status(500);
-        res.send({error: err && (err as Error).message});
+        res.status(500).send({error: err && (err as Error).message});
+    }
+});
+
+app.get('/record', (req, res) => {
+    try {
+        const id = req.query.id;
+        if (!_.isString(id)) {
+            res.status(400).send({error: 'Expecting valid parameter id in url'});
+        } else {
+            const record = repo.getRecordById(id);
+            if (!record) {
+                res.status(404).send(`Unable to find record with id ${id}`);
+            } else {
+                res.send(record);
+            }
+        }
+    } catch (err) {
+        res.status(500).send({error: err && (err as Error).message});
     }
 });
 

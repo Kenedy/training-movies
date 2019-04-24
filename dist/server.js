@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const shortid_1 = __importDefault(require("shortid"));
 const Repository_1 = __importDefault(require("./Repository"));
+const lodash_1 = __importDefault(require("lodash"));
 const app = express_1.default();
 const repo = new Repository_1.default('data.json');
 // CORS
@@ -15,16 +15,34 @@ app.use(function (_req, res, next) {
     res.header('Access-Control-Expose-Headers', 'X-CSRFToken');
     next();
 });
-app.get('/', (_req, res) => res.send(`hic sunt leones ${shortid_1.default.generate()}`));
+app.get('/', (_req, res) => res.send(`For API description see https://github.com/Kenedy/training-movies`));
 app.get('/list', (_req, res) => {
     try {
         const records = repo.getRecords();
-        console.log(records);
         res.send(records);
     }
     catch (err) {
-        res.status(500);
-        res.send({ error: err && err.message });
+        res.status(500).send({ error: err && err.message });
+    }
+});
+app.get('/record', (req, res) => {
+    try {
+        const id = req.query.id;
+        if (!lodash_1.default.isString(id)) {
+            res.status(400).send({ error: 'Expecting valid parameter id in url' });
+        }
+        else {
+            const record = repo.getRecordById(id);
+            if (!record) {
+                res.status(404).send(`Unable to find record with id ${id}`);
+            }
+            else {
+                res.send(record);
+            }
+        }
+    }
+    catch (err) {
+        res.status(500).send({ error: err && err.message });
     }
 });
 app.listen(8080, () => console.log('training-movies backend listening on port 8080'));
