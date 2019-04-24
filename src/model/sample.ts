@@ -1,4 +1,4 @@
-export default [
+const sample: IRecord[] = [
     {
         id: 'EZwHYLmVu',
         name: 'The Guard',
@@ -21,7 +21,7 @@ export default [
             seenItWhole: true,
             score: 1
         }
-    },
+    } as IMovie,
     {
         id: '3JmvsVQ5y',
         name: 'Firefly',
@@ -44,9 +44,9 @@ export default [
             seenItWhole: true,
             score: 2
         },
-        season: [
+        seasons: [
             {
-                number: '1',
+                number: 1,
                 episodes: [
                     {
                         episodeName: 'Serenity',
@@ -98,5 +98,7 @@ export default [
                 ]
             }
         ]
-    }
-]
+    } as ISeries
+];
+
+export default sample;

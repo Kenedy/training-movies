@@ -1,4 +1,6 @@
 import Record from './model/Record';
+import sample from './model/sample';
+import _ from 'lodash';
 
 export default class Repository {
 
@@ -6,8 +8,10 @@ export default class Repository {
         // TODO: Implement
     }
 
-    public getRecords(): Record[] {
-        throw new Error('not implemented yet');
+    public getRecords(): IRecordInList[] {
+        return _(sample)
+            .map((r) => _.pick(r, ['id', 'name', 'type', 'yearOfRelease', 'starring', 'genre']))
+            .valueOf() as IRecordInList[];
     }
 
     public getRecordById(_id: string): Record|null {

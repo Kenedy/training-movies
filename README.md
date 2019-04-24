@@ -39,7 +39,7 @@ Atribut type musí mít hodnotu "movie" nebo "series". Klient by měl zároveň 
 
 Seriál má stejná data jako film. Navíc ještě kolekci sezón a v ní kolekci dílů. Každý díl může mít vlastní rating.
 
-    season[]:
+    seasons[]:
         number: number
         episodes[]:
             episodeName?: string

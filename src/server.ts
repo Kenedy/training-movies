@@ -18,6 +18,7 @@ app.get('/', (_req, res) => res.send(`hic sunt leones ${shortid.generate()}`) );
 app.get('/list', (_req, res) => {
     try {
         const records = repo.getRecords();
+        console.log(records);
         res.send(records);
     } catch (err) {
         res.status(500);

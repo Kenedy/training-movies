@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = [
+const sample = [
     {
         id: 'EZwHYLmVu',
         name: 'The Guard',
@@ -46,9 +46,9 @@ exports.default = [
             seenItWhole: true,
             score: 2
         },
-        season: [
+        seasons: [
             {
-                number: '1',
+                number: 1,
                 episodes: [
                     {
                         episodeName: 'Serenity',
@@ -102,3 +102,4 @@ exports.default = [
         ]
     }
 ];
+exports.default = sample;
