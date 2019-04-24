@@ -27,7 +27,7 @@ V aplikaci je možné evidovat následující data (`[]` značí, že se jedná 
     description?: string
     rating?
         dateOfWatching?: date
-        seenItwhole: boolean
+        seenItWhole: boolean
         score: number
 
 Atribut `id` uživatel nevyplňuje, přiděluje ho server.
@@ -44,7 +44,7 @@ Seriál má stejná data jako film. Navíc ještě kolekci sezón a v ní kolekc
             episodeName?: string
             rating?
                 dateOfWatching?: date
-                seenItwhole: boolean
+                seenItWhole: boolean
                 score: number
 
 ### UI
