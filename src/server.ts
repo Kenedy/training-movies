@@ -52,10 +52,40 @@ app.post('/delete', (req, res) => {
         const validationErr = repo.validateDelete(id);
         if (validationErr) {
             res.status(validationErr.httpStatus).send(validationErr.getErrorObj());
-            return;
+        } else {
+            repo.deleteRecord(id);
+            res.status(200).send();
         }
-        repo.deleteRecord(id);
-        res.status(200).send();
+    } catch (err) {
+        res.status(500).send({error: err && (err as Error).message});
+    }
+});
+
+app.post('/update', (req, res) => {
+    try {
+        const record = req.body;
+        const validationErr = repo.validateUpdate(record);
+        if (validationErr) {
+            res.status(validationErr.httpStatus).send(validationErr.getErrorObj());
+        } else {
+            const updatedRecord = repo.updateRecord(record);
+            res.status(200).send(updatedRecord);
+        }
+    } catch (err) {
+        res.status(500).send({error: err && (err as Error).message});
+    }
+});
+
+app.post('/create', (req, res) => {
+    try {
+        const record = req.body;
+        const validationErr = repo.validateCreate(record);
+        if (validationErr) {
+            res.status(validationErr.httpStatus).send(validationErr.getErrorObj());
+        } else {
+            const createdRecord = repo.createRecord(record);
+            res.status(200).send(createdRecord);
+        }
     } catch (err) {
         res.status(500).send({error: err && (err as Error).message});
     }

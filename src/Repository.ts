@@ -1,7 +1,6 @@
 import sample from './model/sample';
 import _ from 'lodash';
 import fs from 'fs';
-import assert from 'assert';
 import shortid from 'shortid';
 import ValidationError from './ValidationError';
 
@@ -24,8 +23,16 @@ export default class Repository {
         return this.data[id];
     }
 
+    public validateCreate(r: IRecord): ValidationError|void {
+        if (!_.isObject(r)) {
+            return new ValidationError(400, 'Expeting create call to contain record in request body.');
+        }
+        if (!_.isUndefined(r.id)) {
+            return new ValidationError(400, 'New record should not have id. Perhaps you wanted to call update instead?');
+        }
+    }
+
     public createRecord(r: IRecord): IRecord {
-        assert(_.isUndefined(r.id), 'New record should not have id. Perhaps you wanted to call update instead?');
         r.id = shortid.generate();
         this.data[r.id] = r;
         this.saveData();
@@ -33,6 +40,9 @@ export default class Repository {
     }
 
     public validateUpdate(r: IRecord): ValidationError|void {
+        if (!_.isObject(r)) {
+            return new ValidationError(400, 'Expeting update call to contain record in request body.');
+        }
         if (!_.isString(r.id)) {
             return new ValidationError(400, 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
         }

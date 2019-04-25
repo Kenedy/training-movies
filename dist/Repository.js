@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sample_1 = __importDefault(require("./model/sample"));
 const lodash_1 = __importDefault(require("lodash"));
 const fs_1 = __importDefault(require("fs"));
-const assert_1 = __importDefault(require("assert"));
 const shortid_1 = __importDefault(require("shortid"));
 const ValidationError_1 = __importDefault(require("./ValidationError"));
 class Repository {
@@ -24,14 +23,24 @@ class Repository {
     getRecordById(id) {
         return this.data[id];
     }
+    validateCreate(r) {
+        if (!lodash_1.default.isObject(r)) {
+            return new ValidationError_1.default(400, 'Expeting create call to contain record in request body.');
+        }
+        if (!lodash_1.default.isUndefined(r.id)) {
+            return new ValidationError_1.default(400, 'New record should not have id. Perhaps you wanted to call update instead?');
+        }
+    }
     createRecord(r) {
-        assert_1.default(lodash_1.default.isUndefined(r.id), 'New record should not have id. Perhaps you wanted to call update instead?');
         r.id = shortid_1.default.generate();
         this.data[r.id] = r;
         this.saveData();
         return r;
     }
     validateUpdate(r) {
+        if (!lodash_1.default.isObject(r)) {
+            return new ValidationError_1.default(400, 'Expeting update call to contain record in request body.');
+        }
         if (!lodash_1.default.isString(r.id)) {
             return new ValidationError_1.default(400, 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
         }
