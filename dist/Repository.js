@@ -5,11 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sample_1 = __importDefault(require("./model/sample"));
 const lodash_1 = __importDefault(require("lodash"));
-// import shortid from 'shortid';
+const fs_1 = __importDefault(require("fs"));
+const assert_1 = __importDefault(require("assert"));
+const shortid_1 = __importDefault(require("shortid"));
 class Repository {
     constructor(filePath) {
-        // TODO: Implement
-        this.loadData(filePath);
+        this.filePath = filePath;
+        console.log(`Using file ${filePath} as data storage`);
+        this.loadData();
     }
     getRecords() {
         return lodash_1.default(this.data)
@@ -19,14 +22,16 @@ class Repository {
     getRecordById(id) {
         return lodash_1.default(this.data).find((r) => r.id === id);
     }
-    createRecord(_r) {
+    createRecord(r) {
+        assert_1.default(lodash_1.default.isUndefined(r.id), 'New record should not have id. Perhaps you wanted to call update instead?');
+        r.id = shortid_1.default.generate();
+        this.data.push(r);
         this.saveData();
-        // TODO: Implement
-        throw new Error('not implemented yet');
+        return r;
     }
-    updateRecord(_r) {
+    updateRecord(r) {
         this.saveData();
-        // TODO: Implement
+        assert_1.default(lodash_1.default.isString(r.id), 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
         throw new Error('not implemented yet');
     }
     deleteRecord(_id) {
@@ -34,12 +39,18 @@ class Repository {
         // TODO: Implement
         throw new Error('not implemented yet');
     }
-    loadData(_filePath) {
-        // TODO: Implement
-        this.data = sample_1.default;
+    loadData() {
+        try {
+            const dataAsJson = fs_1.default.readFileSync(this.filePath, { encoding: 'utf8' });
+            this.data = JSON.parse(dataAsJson);
+        }
+        catch (err) {
+            console.error(`Failed to load or parse file ${this.filePath}. Using sample data instead.`);
+            this.data = sample_1.default;
+        }
     }
     saveData() {
-        // TODO: Implement
+        fs_1.default.writeFileSync(this.filePath, JSON.stringify(this.data, null, 4));
     }
 }
 exports.default = Repository;

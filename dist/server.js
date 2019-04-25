@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Repository_1 = __importDefault(require("./Repository"));
 const lodash_1 = __importDefault(require("lodash"));
+const path_1 = __importDefault(require("path"));
 const app = express_1.default();
-const repo = new Repository_1.default('data.json');
+const repo = new Repository_1.default(path_1.default.resolve(__dirname, '../data.json'));
 // CORS
 app.use(function (_req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');

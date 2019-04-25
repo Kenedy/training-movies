@@ -1,9 +1,10 @@
 import express from 'express';
 import Repository from './Repository';
 import _ from 'lodash';
+import path from 'path';
 
 const app = express();
-const repo = new Repository('data.json');
+const repo = new Repository(path.resolve(__dirname, '../data.json'));
 
 // CORS
 app.use(function(_req, res, next) {
