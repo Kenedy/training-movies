@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const sample = [
-    {
+const sample = {
+    EZwHYLmVu: {
         id: 'EZwHYLmVu',
         name: 'The Guard',
         type: 'movie',
@@ -24,7 +24,7 @@ const sample = [
             score: 1
         }
     },
-    {
+    '3JmvsVQ5y': {
         id: '3JmvsVQ5y',
         name: 'Firefly',
         type: 'series',
@@ -101,5 +101,5 @@ const sample = [
             }
         ]
     }
-];
+};
 exports.default = sample;

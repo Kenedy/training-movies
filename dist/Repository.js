@@ -8,6 +8,7 @@ const lodash_1 = __importDefault(require("lodash"));
 const fs_1 = __importDefault(require("fs"));
 const assert_1 = __importDefault(require("assert"));
 const shortid_1 = __importDefault(require("shortid"));
+const ValidationError_1 = __importDefault(require("./ValidationError"));
 class Repository {
     constructor(filePath) {
         this.filePath = filePath;
@@ -16,28 +17,44 @@ class Repository {
     }
     getRecords() {
         return lodash_1.default(this.data)
-            .map((r) => lodash_1.default.pick(r, ['id', 'name', 'type', 'yearOfRelease', 'starring', 'genre']))
+            .values()
+            .map((r) => lodash_1.default.pick(r, ['id', 'name', 'type', 'yearOfRelease', 'starring', 'genre', 'rating']))
             .valueOf();
     }
     getRecordById(id) {
-        return lodash_1.default(this.data).find((r) => r.id === id);
+        return this.data[id];
     }
     createRecord(r) {
         assert_1.default(lodash_1.default.isUndefined(r.id), 'New record should not have id. Perhaps you wanted to call update instead?');
         r.id = shortid_1.default.generate();
-        this.data.push(r);
+        this.data[r.id] = r;
         this.saveData();
         return r;
     }
-    updateRecord(r) {
-        this.saveData();
-        assert_1.default(lodash_1.default.isString(r.id), 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
-        throw new Error('not implemented yet');
+    validateUpdate(r) {
+        if (!lodash_1.default.isString(r.id)) {
+            return new ValidationError_1.default(400, 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
+        }
+        if (!this.data[r.id]) {
+            return new ValidationError_1.default(400, `Cannot update record with id ${r.id} because it does not exist in the repository.`);
+        }
     }
-    deleteRecord(_id) {
+    updateRecord(r) {
+        this.data[r.id] = r;
         this.saveData();
-        // TODO: Implement
-        throw new Error('not implemented yet');
+        return r;
+    }
+    validateDelete(id) {
+        if (!lodash_1.default.isString(id)) {
+            return new ValidationError_1.default(400, `Expecting delete request to have body with object with id property of type string.`);
+        }
+        if (!this.data[id]) {
+            return new ValidationError_1.default(400, `Cannot delete record with id ${id} because it does not exist in the repository.`);
+        }
+    }
+    deleteRecord(id) {
+        delete this.data[id];
+        this.saveData();
     }
     loadData() {
         try {
@@ -47,6 +64,7 @@ class Repository {
         catch (err) {
             console.error(`Failed to load or parse file ${this.filePath}. Using sample data instead.`);
             this.data = sample_1.default;
+            this.saveData();
         }
     }
     saveData() {

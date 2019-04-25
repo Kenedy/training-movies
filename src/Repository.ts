@@ -3,9 +3,10 @@ import _ from 'lodash';
 import fs from 'fs';
 import assert from 'assert';
 import shortid from 'shortid';
+import ValidationError from './ValidationError';
 
 export default class Repository {
-    private data: IRecord[];
+    private data: IRecordDictionary;
 
     constructor(private filePath: string) {
         console.log(`Using file ${filePath} as data storage`);
@@ -14,33 +15,50 @@ export default class Repository {
 
     public getRecords(): IRecordInList[] {
         return _(this.data)
-            .map((r) => _.pick(r, ['id', 'name', 'type', 'yearOfRelease', 'starring', 'genre']))
+            .values()
+            .map((r) => _.pick(r, ['id', 'name', 'type', 'yearOfRelease', 'starring', 'genre', 'rating']))
             .valueOf() as IRecordInList[];
     }
 
     public getRecordById(id: string): IRecord|undefined {
-        return _(this.data).find((r) => r.id === id);
+        return this.data[id];
     }
 
     public createRecord(r: IRecord): IRecord {
         assert(_.isUndefined(r.id), 'New record should not have id. Perhaps you wanted to call update instead?');
         r.id = shortid.generate();
-        this.data.push(r);
+        this.data[r.id] = r;
         this.saveData();
         return r;
     }
 
-    public updateRecord(r: IRecord): IRecord {
-        this.saveData();
-        assert(_.isString(r.id), 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
-
-        throw new Error('not implemented yet');
+    public validateUpdate(r: IRecord): ValidationError|void {
+        if (!_.isString(r.id)) {
+            return new ValidationError(400, 'Updating record requires the record to have an id. Perhaps you wanted to call create instead?');
+        }
+        if (!this.data[r.id]) {
+            return new ValidationError(400, `Cannot update record with id ${r.id} because it does not exist in the repository.`);
+        }
     }
 
-    public deleteRecord(_id: string): void {
+    public updateRecord(r: IRecord): IRecord {
+        this.data[r.id] = r;
         this.saveData();
-        // TODO: Implement
-        throw new Error('not implemented yet');
+        return r;
+    }
+
+    public validateDelete(id: any): ValidationError|void {
+        if (!_.isString(id)) {
+            return new ValidationError(400, `Expecting delete request to have body with object with id property of type string.`);
+        }
+        if (!this.data[id]) {
+            return new ValidationError(400, `Cannot delete record with id ${id} because it does not exist in the repository.`);
+        }
+    }
+
+    public deleteRecord(id: string): void {
+        delete this.data[id];
+        this.saveData();
     }
 
     private loadData(): void {
@@ -50,6 +68,7 @@ export default class Repository {
         } catch (err) {
             console.error(`Failed to load or parse file ${this.filePath}. Using sample data instead.`);
             this.data = sample;
+            this.saveData();
         }
     }
 

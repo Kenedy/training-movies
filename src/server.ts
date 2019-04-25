@@ -2,6 +2,7 @@ import express from 'express';
 import Repository from './Repository';
 import _ from 'lodash';
 import path from 'path';
+import bodyParser = require('body-parser');
 
 const app = express();
 const repo = new Repository(path.resolve(__dirname, '../data.json'));
@@ -13,6 +14,8 @@ app.use(function(_req, res, next) {
     res.header('Access-Control-Expose-Headers', 'X-CSRFToken');
     next();
 });
+
+app.use(bodyParser.json());
 
 app.get('/', (_req, res) => res.send(`For API description see https://github.com/Kenedy/training-movies`) );
 
@@ -38,6 +41,21 @@ app.get('/record', (req, res) => {
                 res.send(record);
             }
         }
+    } catch (err) {
+        res.status(500).send({error: err && (err as Error).message});
+    }
+});
+
+app.post('/delete', (req, res) => {
+    try {
+        const id = req.body && req.body.id;
+        const validationErr = repo.validateDelete(id);
+        if (validationErr) {
+            res.status(validationErr.httpStatus).send(validationErr.getErrorObj());
+            return;
+        }
+        repo.deleteRecord(id);
+        res.status(200).send();
     } catch (err) {
         res.status(500).send({error: err && (err as Error).message});
     }

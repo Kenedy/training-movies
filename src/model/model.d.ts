@@ -15,6 +15,10 @@ interface IRecord extends IRecordInList {
     description: string;
 }
 
+interface IRecordDictionary {
+    [id: string]: IRecord;
+}
+
 interface IRating {
     dateOfWatching: string;
     seenItWhole: boolean;

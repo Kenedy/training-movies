@@ -1,5 +1,5 @@
-const sample: IRecord[] = [
-    {
+const sample: IRecordDictionary = {
+    EZwHYLmVu: {
         id: 'EZwHYLmVu',
         name: 'The Guard',
         type: 'movie',
@@ -22,7 +22,7 @@ const sample: IRecord[] = [
             score: 1
         }
     } as IMovie,
-    {
+    '3JmvsVQ5y': {
         id: '3JmvsVQ5y',
         name: 'Firefly',
         type: 'series',
@@ -99,6 +99,6 @@ const sample: IRecord[] = [
             }
         ]
     } as ISeries
-];
+};
 
 export default sample;

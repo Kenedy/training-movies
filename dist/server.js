@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const Repository_1 = __importDefault(require("./Repository"));
 const lodash_1 = __importDefault(require("lodash"));
 const path_1 = __importDefault(require("path"));
+const bodyParser = require("body-parser");
 const app = express_1.default();
 const repo = new Repository_1.default(path_1.default.resolve(__dirname, '../data.json'));
 // CORS
@@ -16,6 +17,7 @@ app.use(function (_req, res, next) {
     res.header('Access-Control-Expose-Headers', 'X-CSRFToken');
     next();
 });
+app.use(bodyParser.json());
 app.get('/', (_req, res) => res.send(`For API description see https://github.com/Kenedy/training-movies`));
 app.get('/list', (_req, res) => {
     try {
@@ -41,6 +43,21 @@ app.get('/record', (req, res) => {
                 res.send(record);
             }
         }
+    }
+    catch (err) {
+        res.status(500).send({ error: err && err.message });
+    }
+});
+app.post('/delete', (req, res) => {
+    try {
+        const id = req.body && req.body.id;
+        const validationErr = repo.validateDelete(id);
+        if (validationErr) {
+            res.status(validationErr.httpStatus).send(validationErr.getErrorObj());
+            return;
+        }
+        repo.deleteRecord(id);
+        res.status(200).send();
     }
     catch (err) {
         res.status(500).send({ error: err && err.message });
