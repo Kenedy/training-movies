@@ -56,8 +56,8 @@ UI by mělo poskytovat dobrou "user experience". Můžete samozřejmě řešit p
 
 Aplikace by měla při spuštění zobrazit seznam filmů. Nad tímto seznamem jde filtrovat těmito způsoby:
 
-- uživatel zadá třeba i částečný název; toto porovnání by nemělo zohledňovat velká a malá písmena
-- uživatel zadá třeba jen částečný název některého z herců (starring)
+- uživatel zadá třeba i částečný název; toto porovnání by nemělo zohledňovat velká a malá písmena; pro toto použijte referenceLookup
+- uživatel zadá třeba jen částečný název některého z herců (starring); implementujte ručně pomocí textboxu
 - uživatel může zvolit, že chce vidět jen filmy nebo jen seriály
 
 Seznam filmů jde zároveň i řadit podle některého z těchto sloupců
@@ -74,15 +74,13 @@ Ze seznamu je možné se dostat na detail, kde jsou zobrazeny všechny informace
 
 Formulář pro editaci záznamů by měl kontrolovat správnost dat, čili povinnosti polí, neměl by filmům umožnit mít sezóny dílů apod. V průběhu editace by mělo být možné změnit typ záznamu z filmu na seriál a obráceně. V takovém případě ale uživatel potenciálně ztrácí informaci o sezónách a dílech, protože film to mít nemůže. Před smazáním dat by tedy měl uživatel potvrdit, že to opravdu chce. Ve chvíli, kdy klient odesílá vytvořená nebo upravená data na server, nemělo by se už stát, že by typ film měl atributy, které na něj nepatří.
 
-Stejně jako úprava záznamů je možné záznamy i přidávat a mazat. Ze které obrazovky bude možné záznamy mazat už je na klientovi.
+Stejně jako úprava záznamů je možné záznamy i přidávat a mazat. Ze které obrazovky bude možné záznamy mazat už je na Vás.
 
 ### Další funkce
 
-Následující body už nemají přímo vliv na funkci aplikace, ale mohou zlepšit práci s uživatelským rozhraním (a dají Vám příležitost si vyzkoušet některé další postupy a komponenty).
-
-- zvažte použití breadcrumbs pro snadnější a přehlednější navigaci mezi formuláři
+- použijte breadcrumbs pro snadnější a přehlednější navigaci mezi formuláři
 - kdykoli se načítají či ukládají data, měla by aplikace tento prostoj indikovat uživateli
-- může být pro uživatele příjemné, pokud by mu vyhledávání názvu napovídalo z názvů již existujících záznamů
+- pokud by kdekoli při zadávání či úpravě dat mohl uživatel přijít o zadávaná data (např. pokud stiskne nějakou komponentu pro navigaci), nemělo by se to stát bez toho, že ho na to aplikace nejprve upozorní a dá mu možnost takovou operaci zrušit; toto neplatí pro triviální věci typu pole filtru
 
 ## API
 
