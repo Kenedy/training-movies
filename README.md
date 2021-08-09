@@ -10,7 +10,7 @@
 
 ## Zadání práce
 
-Vytvořte webovou aplikaci pro evidenci shlédnutých filmů a seriálů spolu s jejich hodnocením. Aplikace umožňuje filmy prohlížet, filtrovat dle jejich typu nebo části názvu, přidávat, upravovat a mazat. Filmy i seriály je možno hodnotit. U seriálů je možné hodnotit i jednotlivé díly, evidovat jejich počet a názvy jednotlivých dílů. Aplikace slouží pro jednoho uživatele.
+Vytvořte webovou aplikaci pro evidenci shlédnutých filmů a seriálů spolu s jejich hodnocením. Aplikace umožňuje filmy a seriály prohlížet, přidávat, upravovat a mazat. Filmy i seriály je možno hodnotit. U seriálů je možné hodnotit i jednotlivé díly.
 
 V aplikaci je možné evidovat následující data (`[]` značí, že se jedná o více možných hodnot, `?` označuje pole, která nejsou povinná):
 
@@ -33,7 +33,7 @@ V aplikaci je možné evidovat následující data (`[]` značí, že se jedná 
 
 Atribut `id` uživatel nevyplňuje, přiděluje ho server.
 
-Atribut type musí mít hodnotu "movie" nebo "series". Klient by měl zároveň kontrolovat, že `yearOfRelease` spadá do rozumného časového rozsahu (server to nicméně nekontroluje, co je rozumný rozsah je tedy na Vás). Pro genre si může klient připravit výčet hodnot, nebo je nechat uživateli zadat. `Description` by měl mít uživatel možnost zadat víceřádkovým textem. `Rating` je hodnocení uživatelem (může vyplnit, kdy to viděl, zda shlédnul celé, a nějaké `score`). Jakých hodnot nabývá `score` (zda menší je lepší či obráceně a v jakém rozsahu) je na Vašem rozhodnutí.
+Atribut type musí mít hodnotu "movie" nebo "series". Klient by měl zároveň kontrolovat, že `yearOfRelease` spadá do rozumného časového rozsahu (rozhodněte se sami, co považujete za rozumný rozsah). Pro genre si může klient připravit výčet hodnot, nebo je nechat uživateli zadat. `Description` by měl mít uživatel možnost zadat víceřádkovým textem. `Rating` je hodnocení uživatelem (může vyplnit, kdy to viděl, zda shlédnul celé, a nějaké `score`). Jakých hodnot nabývá `score` (zda menší je lepší či obráceně a v jakém rozsahu) je na Vašem rozhodnutí.
 
 ### Series
 
@@ -56,15 +56,8 @@ UI by mělo poskytovat dobrou "user experience". Můžete samozřejmě řešit p
 
 Aplikace by měla při spuštění zobrazit seznam filmů. Nad tímto seznamem jde filtrovat těmito způsoby:
 
-- uživatel zadá třeba i částečný název; toto porovnání by nemělo zohledňovat velká a malá písmena; pro toto použijte referenceLookup
 - uživatel zadá třeba jen částečný název některého z herců (starring); implementujte ručně pomocí textboxu
 - uživatel může zvolit, že chce vidět jen filmy nebo jen seriály
-
-Seznam filmů jde zároveň i řadit podle některého z těchto sloupců
-
-- name
-- yearOfRelease
-- score (v případě seriálů se zohledňuje jen score celého seriálu, ne jednotlivých dílů)
 
 Seznam nemusí být stránkován.
 
@@ -76,11 +69,21 @@ Formulář pro editaci záznamů by měl kontrolovat správnost dat, čili povin
 
 Stejně jako úprava záznamů je možné záznamy i přidávat a mazat. Ze které obrazovky bude možné záznamy mazat už je na Vás.
 
+### Statistiky
+
+Ze seznamu se uživatel může přepnout na stránku statistik, kde se zobrazují nějaká smysluplná agregovaná data. Z této stránky se jde přepnout zpět na seznam, případně prokliknout na detail filmu/seriálu. Tato stránka by měla zobrazovat
+
+- celkový počet filmů (s rozpadem podle toho, zda je uživatel shlédnul celé nebo ne)
+- celkový počet seriálů (opět s rozpadem)
+- tři filmy a tři seriály s nejlepším hodnocením
+
+Vedle toho najděte ještě alespoň tři další statistiky/reporty, které budou aspoň trochu smysluplné.
+
 ### Další funkce
 
 - použijte breadcrumbs pro snadnější a přehlednější navigaci mezi formuláři
-- kdykoli se načítají či ukládají data, měla by aplikace tento prostoj indikovat uživateli
-- pokud by kdekoli při zadávání či úpravě dat mohl uživatel přijít o zadávaná data (např. pokud stiskne nějakou komponentu pro navigaci), nemělo by se to stát bez toho, že ho na to aplikace nejprve upozorní a dá mu možnost takovou operaci zrušit; toto neplatí pro triviální věci typu pole filtru
+- kdykoli se načítají či ukládají data, měla by aplikace tento prostoj indikovat uživateli (použijte busyindicator)
+- pokud by kdekoli při zadávání či úpravě dat mohl uživatel přijít o zadávaná data (např. pokud stiskne nějakou komponentu pro navigaci), nemělo by se to stát bez toho, že ho na to aplikace nejprve upozorní a dá mu možnost takovou operaci zrušit; toto neplatí pro triviální věci jako je vyhledávací pole
 
 ## API
 
