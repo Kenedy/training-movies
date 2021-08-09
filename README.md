@@ -4,6 +4,8 @@
 
 ## Instalace
 
+K spuštění backendu budete potřebovat mít instalován https://nodejs.org/, stačí LTS verze.
+
 1. Naklonovat si repository
 1. `npm install --production` v adresáři, kde je umístěn package.json nainstaluje použité npm moduly.
 1. `npm start` spustí webserver, který bude dostupný na adrese http://localhost:8080/
@@ -63,9 +65,7 @@ Seznam nemusí být stránkován.
 
 ### Detail
 
-Ze seznamu je možné se dostat na detail, kde jsou zobrazeny všechny informace k danému záznamu. Zároveň existuje detail pro úpravu dat v daném záznamu (samozřejmě kromě id). Jestli to bude tatáž obrazovka nebo bude mít editace obrazovku vlastní je na Vás. Tento detail by měl používat deeplink, čili součástí url je id záznamu a je tedy možné se dostat rovnou na tento záznam otevřením tohoto url.
-
-Formulář pro editaci záznamů by měl kontrolovat správnost dat, čili povinnosti polí, neměl by filmům umožnit mít sezóny dílů apod. V průběhu editace by mělo být možné změnit typ záznamu z filmu na seriál a obráceně. V takovém případě ale uživatel potenciálně ztrácí informaci o sezónách a dílech, protože film to mít nemůže. Před smazáním dat by tedy měl uživatel potvrdit, že to opravdu chce. Ve chvíli, kdy klient odesílá vytvořená nebo upravená data na server, nemělo by se už stát, že by typ film měl atributy, které na něj nepatří.
+Ze seznamu je možné se dostat na detail, kde jsou zobrazeny a je možné tam upravovat informace k danému záznamu. Formulář by měl kontrolovat správnost dat, čili povinnosti polí, neměl by filmům umožnit mít sezóny dílů apod. V průběhu editace by mělo být možné změnit typ záznamu z filmu na seriál a obráceně. V takovém případě ale uživatel potenciálně ztrácí informaci o sezónách a dílech, protože film to mít nemůže. Před smazáním dat by tedy měl uživatel potvrdit, že to opravdu chce. Ve chvíli, kdy klient odesílá vytvořená nebo upravená data na server, nemělo by se už stát, že by typ film měl atributy, které na něj nepatří.
 
 Stejně jako úprava záznamů je možné záznamy i přidávat a mazat. Ze které obrazovky bude možné záznamy mazat už je na Vás.
 
@@ -81,7 +81,9 @@ Vedle toho najděte ještě alespoň tři další statistiky/reporty, které bud
 
 ### Další funkce
 
-- použijte breadcrumbs pro snadnější a přehlednější navigaci mezi formuláři
+- seznam, detail a statistiky by měly být samostatné formuláře
+- použijte breadcrumbs pro přehlednější navigaci mezi formuláři
+- uživatel by měl mít možnost použít back/forward pro pohyb mezi formuláři a měl by mít možnost si třeba uložit url na detail konkrétního filmu/seriálu (použijte urlRouter)
 - kdykoli se načítají či ukládají data, měla by aplikace tento prostoj indikovat uživateli (použijte busyindicator)
 - pokud by kdekoli při zadávání či úpravě dat mohl uživatel přijít o zadávaná data (např. pokud stiskne nějakou komponentu pro navigaci), nemělo by se to stát bez toho, že ho na to aplikace nejprve upozorní a dá mu možnost takovou operaci zrušit; toto neplatí pro triviální věci jako je vyhledávací pole
 
@@ -89,7 +91,7 @@ Vedle toho najděte ještě alespoň tři další statistiky/reporty, které bud
 
 Backend server běží na adrese http://localhost:8080/. Vystavuje následující služby:
 
-- `http://localhost:8080/list`  (GET - vrací jen základní údaje o dílech)
+- `http://localhost:8080/list` (GET - vrací jen základní údaje o dílech)
 - `http://localhost:8080/record?id=`*(začátek názvu díla)* (GET - vrací všechna data daného záznamu)
 - `http://localhost:8080/create` (POST s obsahem Movie nebo Series)
 - `http://localhost:8080/update` (POST s obsahem Movie nebo Series)
